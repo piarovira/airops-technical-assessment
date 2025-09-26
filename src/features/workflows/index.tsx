@@ -1,12 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { executeWorkflow } from "services/airops-service/airops";
+import { WorkflowsTable } from "./components/workflows-table";
+import { Header } from "./components/header";
+import { useWorkflows } from "./hooks/useWorkflows";
+import { EmptyState } from "./components/empty-state";
 
 export const Workflows = () => {
-  const { data } = useQuery({
-    queryKey: ["workflows"],
-    queryFn: () => executeWorkflow(15),
-  });
+  const { sortedData } = useWorkflows();
 
-  return <div>Workflows {JSON.stringify(data)}</div>;
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex-shrink-0">
+        <Header />
+      </div>
+      <div className="flex-1 overflow-auto bg-white">
+        <div className="p-5">
+          {sortedData && sortedData.length > 0 ? (
+            <WorkflowsTable data={sortedData} />
+          ) : (
+            <EmptyState />
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
