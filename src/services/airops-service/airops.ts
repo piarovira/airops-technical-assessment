@@ -39,23 +39,4 @@ const initializeAirOps = async (userId: string) => {
   }
 };
 
-const executeWorkflow = async (count = 10) => {
-  try {
-    const airops = await initializeAirOps(import.meta.env.VITE_AIROPS_USER_ID);
-
-    const response = await airops.apps.execute({
-      appId: import.meta.env.VITE_AIROPS_APP_ID,
-      payload: {
-        inputs: {
-          count: count,
-        },
-      },
-    });
-    const result = await response.result();
-    return result.output;
-  } catch (error) {
-    console.error("Workflow execution failed:", error);
-  }
-};
-
-export { createHashedUserId, initializeAirOps, executeWorkflow };
+export { createHashedUserId, initializeAirOps };
